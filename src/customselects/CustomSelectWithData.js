@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Select, Input } from 'antd';
 import { useQuery } from '@tanstack/react-query';
-import './CustomSelectWithData.css';  
+import './CustomSelectWithData.css';
 
 const { Option } = Select;
 
+// Fetch posts function
 const fetchPosts = async () => {
   const response = await fetch('https://jsonplaceholder.typicode.com/posts');
   if (!response.ok) {
@@ -21,8 +22,8 @@ const CustomSelectWithData = () => {
   const [selectedValues, setSelectedValues] = useState([]);
 
   const { data: options = [], isLoading, isError } = useQuery({
-    queryKey: ['posts'], 
-    queryFn: fetchPosts 
+    queryKey: ['posts'],
+    queryFn: fetchPosts,
   });
 
   if (isLoading) {
@@ -44,17 +45,18 @@ const CustomSelectWithData = () => {
   return (
     <div className="custom-select-wrapper">
       <label className="select-label">Team member</label>
+      
       <Input
         className="filter-input"
-        placeholder="Filter options"
+        placeholder="Search here"
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
       />
+
       <Select
-        showSearch
-        mode="multiple"  
+        mode="multiple"
         placeholder="Select team member"
-        onChange={(value) => setSelectedValues(value)} 
+        onChange={(value) => setSelectedValues(value)}
         value={selectedValues}
         disabled={isDisabled}
         suffixIcon={selectedIcon}
@@ -69,14 +71,16 @@ const CustomSelectWithData = () => {
           </Option>
         ))}
       </Select>
+
       <p className="hint-text">This is a hint text to help the user.</p>
 
-      {/* Display Selected Posts */}
       <div style={{ marginTop: '20px' }}>
         <h4>Selected Team Members:</h4>
         {selectedValues.map(value => {
           const selectedPost = options.find(option => option.id === value);
-          return selectedPost ? <div className="selectedposts" key={value}>{selectedPost.title}</div> : null;
+          return selectedPost ? (
+            <div className="selectedposts" key={value}>{selectedPost.title}</div>
+          ) : null;
         })}
       </div>
     </div>
