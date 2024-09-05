@@ -5,7 +5,6 @@ import './CustomSelectWithData.css';
 
 const { Option } = Select;
 
-// Function to fetch posts from the API
 const fetchPosts = async () => {
   const response = await fetch('https://jsonplaceholder.typicode.com/posts');
   if (!response.ok) {
